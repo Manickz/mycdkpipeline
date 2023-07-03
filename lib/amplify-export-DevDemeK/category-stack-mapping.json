@@ -1,0 +1,57 @@
+[
+  {
+    "category": "api",
+    "resourceName": "DevDemeK",
+    "service": "AppSync"
+  },
+  {
+    "category": "auth",
+    "resourceName": "DevDemeK",
+    "service": "Cognito"
+  },
+  {
+    "category": "function",
+    "resourceName": "CreateTokenGatedGroups",
+    "service": "Lambda"
+  },
+  {
+    "category": "function",
+    "resourceName": "DeMeMediaConvertNotificationHandler",
+    "service": "Lambda"
+  },
+  {
+    "category": "function",
+    "resourceName": "DeMePostVideoOptimizer",
+    "service": "Lambda"
+  },
+  {
+    "category": "function",
+    "resourceName": "DemeMuteKickGroupUserHandler",
+    "service": "Lambda"
+  },
+  {
+    "category": "function",
+    "resourceName": "DemeMuteKickGroupUserStatus",
+    "service": "Lambda"
+  },
+  {
+    "category": "function",
+    "resourceName": "checkinvitecode",
+    "service": "Lambda"
+  },
+  {
+    "category": "function",
+    "resourceName": "GetWaitListByInviteLink",
+    "service": "Lambda"
+  },
+  {
+    "category": "function",
+    "resourceName": "GetWaitListByEmail",
+    "service": "Lambda"
+  },
+  {
+    "category": "storage",
+    "resourceName": "s3devdemekstorage615f2589",
+    "service": "S3"
+  }
+]

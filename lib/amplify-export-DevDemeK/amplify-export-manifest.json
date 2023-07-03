@@ -1,0 +1,297 @@
+{
+  "stackName": "amplify-devdemek-dev-82926",
+  "props": {
+    "templateFile": "root-stack-template.json",
+    "parameters": {
+      "AuthRoleName": "amplify-devdemek-dev-82926-authRole",
+      "UnauthRoleName": "amplify-devdemek-dev-82926-unauthRole",
+      "DeploymentBucketName": "amplify-devdemek-dev-82926-deployment"
+    },
+    "preserveLogicalIds": true,
+    "loadNestedStacks": {
+      "apiDevDemeK": {
+        "templateFile": "api/DevDemeK/cloudformation-template.json",
+        "parameters": {
+          "AppSyncApiName": "DevDemeK",
+          "DynamoDBBillingMode": "PAY_PER_REQUEST",
+          "DynamoDBEnableServerSideEncryption": false,
+          "AuthModeLastUpdated": "2023-05-25T10:24:28.344Z",
+          "S3DeploymentBucket": "amplify-devdemek-dev-82926-deployment",
+          "S3DeploymentRootKey": "amplify-appsync-files/d3827977524687c44b7adadcb7673807a925e0c3",
+          "env": "dev"
+        },
+        "preserveLogicalIds": true,
+        "loadNestedStacks": {
+          "Comment": {
+            "templateFile": "api/DevDemeK/amplify-appsync-files/stacks/Comment.json",
+            "preserveLogicalIds": true,
+            "loadNestedStacks": {}
+          },
+          "ConnectionStack": {
+            "templateFile": "api/DevDemeK/amplify-appsync-files/stacks/ConnectionStack.json",
+            "preserveLogicalIds": true,
+            "loadNestedStacks": {}
+          },
+          "CustomResourcesjson": {
+            "templateFile": "api/DevDemeK/amplify-appsync-files/stacks/CustomResources.json",
+            "preserveLogicalIds": true,
+            "loadNestedStacks": {}
+          },
+          "Follow": {
+            "templateFile": "api/DevDemeK/amplify-appsync-files/stacks/Follow.json",
+            "preserveLogicalIds": true,
+            "loadNestedStacks": {}
+          },
+          "FunctionDirectiveStack": {
+            "templateFile": "api/DevDemeK/amplify-appsync-files/stacks/FunctionDirectiveStack.json",
+            "preserveLogicalIds": true,
+            "loadNestedStacks": {}
+          },
+          "Group": {
+            "templateFile": "api/DevDemeK/amplify-appsync-files/stacks/Group.json",
+            "preserveLogicalIds": true,
+            "loadNestedStacks": {}
+          },
+          "Interest": {
+            "templateFile": "api/DevDemeK/amplify-appsync-files/stacks/Interest.json",
+            "preserveLogicalIds": true,
+            "loadNestedStacks": {}
+          },
+          "InviteCode": {
+            "templateFile": "api/DevDemeK/amplify-appsync-files/stacks/InviteCode.json",
+            "preserveLogicalIds": true,
+            "loadNestedStacks": {}
+          },
+          "JoinWaitList": {
+            "templateFile": "api/DevDemeK/amplify-appsync-files/stacks/JoinWaitList.json",
+            "preserveLogicalIds": true,
+            "loadNestedStacks": {}
+          },
+          "Likes": {
+            "templateFile": "api/DevDemeK/amplify-appsync-files/stacks/Likes.json",
+            "preserveLogicalIds": true,
+            "loadNestedStacks": {}
+          },
+          "Option": {
+            "templateFile": "api/DevDemeK/amplify-appsync-files/stacks/Option.json",
+            "preserveLogicalIds": true,
+            "loadNestedStacks": {}
+          },
+          "Poll": {
+            "templateFile": "api/DevDemeK/amplify-appsync-files/stacks/Poll.json",
+            "preserveLogicalIds": true,
+            "loadNestedStacks": {}
+          },
+          "Post": {
+            "templateFile": "api/DevDemeK/amplify-appsync-files/stacks/Post.json",
+            "preserveLogicalIds": true,
+            "loadNestedStacks": {}
+          },
+          "Reply": {
+            "templateFile": "api/DevDemeK/amplify-appsync-files/stacks/Reply.json",
+            "preserveLogicalIds": true,
+            "loadNestedStacks": {}
+          },
+          "Report": {
+            "templateFile": "api/DevDemeK/amplify-appsync-files/stacks/Report.json",
+            "preserveLogicalIds": true,
+            "loadNestedStacks": {}
+          },
+          "TaggedGroupsInPost": {
+            "templateFile": "api/DevDemeK/amplify-appsync-files/stacks/TaggedGroupsInPost.json",
+            "preserveLogicalIds": true,
+            "loadNestedStacks": {}
+          },
+          "TaggedUsersInPost": {
+            "templateFile": "api/DevDemeK/amplify-appsync-files/stacks/TaggedUsersInPost.json",
+            "preserveLogicalIds": true,
+            "loadNestedStacks": {}
+          },
+          "User": {
+            "templateFile": "api/DevDemeK/amplify-appsync-files/stacks/User.json",
+            "preserveLogicalIds": true,
+            "loadNestedStacks": {}
+          },
+          "UserGroupRelation": {
+            "templateFile": "api/DevDemeK/amplify-appsync-files/stacks/UserGroupRelation.json",
+            "preserveLogicalIds": true,
+            "loadNestedStacks": {}
+          },
+          "Vote": {
+            "templateFile": "api/DevDemeK/amplify-appsync-files/stacks/Vote.json",
+            "preserveLogicalIds": true,
+            "loadNestedStacks": {}
+          },
+          "Wallet": {
+            "templateFile": "api/DevDemeK/amplify-appsync-files/stacks/Wallet.json",
+            "preserveLogicalIds": true,
+            "loadNestedStacks": {}
+          }
+        }
+      },
+      "authDevDemeK": {
+        "templateFile": "auth/DevDemeK/DevDemeK-cloudformation-template.json",
+        "parameters": {
+          "identityPoolName": "testAuthIdentityPool",
+          "allowUnauthenticatedIdentities": true,
+          "resourceNameTruncated": "devdem1a6540a2",
+          "userPoolName": "DevDemeK",
+          "autoVerifiedAttributes": [
+            "email"
+          ],
+          "mfaConfiguration": "OFF",
+          "mfaTypes": [
+            "SMS Text Message"
+          ],
+          "smsAuthenticationMessage": "Your authentication code is {####}",
+          "smsVerificationMessage": "Your verification code is {####}",
+          "emailVerificationSubject": "Verification code: {####}",
+          "emailVerificationMessage": "Verification code: {####}",
+          "defaultPasswordPolicy": false,
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": [],
+          "requiredAttributes": [],
+          "aliasAttributes": [],
+          "userpoolClientGenerateSecret": false,
+          "userpoolClientRefreshTokenValidity": 30,
+          "userpoolClientWriteAttributes": [],
+          "userpoolClientReadAttributes": [],
+          "userpoolClientLambdaRole": "DevDem1a6540a2_userpoolclient_lambda_role",
+          "userpoolClientSetAttributes": false,
+          "sharedId": "1a6540a2",
+          "resourceName": "DevDemeK",
+          "authSelections": "identityPoolAndUserPool",
+          "serviceName": "Cognito",
+          "useDefault": "manual",
+          "userPoolGroups": false,
+          "userPoolGroupList": [],
+          "adminQueries": false,
+          "thirdPartyAuth": false,
+          "authProviders": [],
+          "usernameCaseSensitive": false,
+          "useEnabledMfas": true,
+          "breakCircularDependency": true,
+          "dependsOn": [],
+          "hostedUI": false,
+          "env": "dev"
+        },
+        "preserveLogicalIds": true,
+        "loadNestedStacks": {}
+      },
+      "functionCreateTokenGatedGroups": {
+        "templateFile": "function/CreateTokenGatedGroups/CreateTokenGatedGroups-cloudformation-template.json",
+        "parameters": {
+          "deploymentBucketName": "amplify-devdemek-dev-82926-deployment",
+          "s3Key": "amplify-builds/CreateTokenGatedGroups-706c7a32632f522f5130-build.zip",
+          "env": "dev"
+        },
+        "preserveLogicalIds": true,
+        "loadNestedStacks": {}
+      },
+      "functionDeMeMediaConvertNotificationHandler": {
+        "templateFile": "function/DeMeMediaConvertNotificationHandler/DeMeMediaConvertNotificationHandler-cloudformation-template.json",
+        "parameters": {
+          "deploymentBucketName": "amplify-devdemek-dev-82926-deployment",
+          "s3Key": "amplify-builds/DeMeMediaConvertNotificationHandler-3434754c497848544848-build.zip",
+          "env": "dev"
+        },
+        "preserveLogicalIds": true,
+        "loadNestedStacks": {}
+      },
+      "functionDeMePostVideoOptimizer": {
+        "templateFile": "function/DeMePostVideoOptimizer/DeMePostVideoOptimizer-cloudformation-template.json",
+        "parameters": {
+          "deploymentBucketName": "amplify-devdemek-dev-82926-deployment",
+          "s3Key": "amplify-builds/DeMePostVideoOptimizer-746f75334634622f5245-build.zip",
+          "env": "dev"
+        },
+        "preserveLogicalIds": true,
+        "loadNestedStacks": {}
+      },
+      "functionDemeMuteKickGroupUserHandler": {
+        "templateFile": "function/DemeMuteKickGroupUserHandler/DemeMuteKickGroupUserHandler-cloudformation-template.json",
+        "parameters": {
+          "deploymentBucketName": "amplify-devdemek-dev-82926-deployment",
+          "s3Key": "amplify-builds/DemeMuteKickGroupUserHandler-6f2b646a57515156634e-build.zip",
+          "env": "dev"
+        },
+        "preserveLogicalIds": true,
+        "loadNestedStacks": {}
+      },
+      "functionDemeMuteKickGroupUserStatus": {
+        "templateFile": "function/DemeMuteKickGroupUserStatus/DemeMuteKickGroupUserStatus-cloudformation-template.json",
+        "parameters": {
+          "deploymentBucketName": "amplify-devdemek-dev-82926-deployment",
+          "s3Key": "amplify-builds/DemeMuteKickGroupUserStatus-346158427673662b7839-build.zip",
+          "env": "dev"
+        },
+        "preserveLogicalIds": true,
+        "loadNestedStacks": {}
+      },
+      "functionGetWaitListByEmail": {
+        "templateFile": "function/GetWaitListByEmail/GetWaitListByEmail-cloudformation-template.json",
+        "parameters": {
+          "deploymentBucketName": "amplify-devdemek-dev-82926-deployment",
+          "s3Key": "amplify-builds/GetWaitListByEmail-516f4663386833736463-build.zip",
+          "env": "dev"
+        },
+        "preserveLogicalIds": true,
+        "loadNestedStacks": {}
+      },
+      "functionGetWaitListByInviteLink": {
+        "templateFile": "function/GetWaitListByInviteLink/GetWaitListByInviteLink-cloudformation-template.json",
+        "parameters": {
+          "deploymentBucketName": "amplify-devdemek-dev-82926-deployment",
+          "s3Key": "amplify-builds/GetWaitListByInviteLink-52764359496b4f774e65-build.zip",
+          "env": "dev"
+        },
+        "preserveLogicalIds": true,
+        "loadNestedStacks": {}
+      },
+      "functioncheckinvitecode": {
+        "templateFile": "function/checkinvitecode/checkinvitecode-cloudformation-template.json",
+        "parameters": {
+          "deploymentBucketName": "amplify-devdemek-dev-82926-deployment",
+          "s3Key": "amplify-builds/checkinvitecode-7749794c526a4e4d5336-build.zip",
+          "env": "dev"
+        },
+        "preserveLogicalIds": true,
+        "loadNestedStacks": {}
+      },
+      "storages3devdemekstorage615f2589": {
+        "templateFile": "storage/s3devdemekstorage615f2589/cloudformation-template.json",
+        "parameters": {
+          "bucketName": "devdemek-storage-615f2589",
+          "selectedGuestPermissions": [
+            "s3:GetObject",
+            "s3:ListBucket"
+          ],
+          "selectedAuthenticatedPermissions": [
+            "s3:PutObject",
+            "s3:GetObject",
+            "s3:ListBucket",
+            "s3:DeleteObject"
+          ],
+          "s3PrivatePolicy": "Private_policy_532761d2",
+          "s3ProtectedPolicy": "Protected_policy_532761d2",
+          "s3PublicPolicy": "Public_policy_532761d2",
+          "s3ReadPolicy": "read_policy_532761d2",
+          "s3UploadsPolicy": "Uploads_policy_532761d2",
+          "authPolicyName": "s3_amplify_532761d2",
+          "unauthPolicyName": "s3_amplify_532761d2",
+          "AuthenticatedAllowList": "ALLOW",
+          "GuestAllowList": "ALLOW",
+          "s3PermissionsAuthenticatedPrivate": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+          "s3PermissionsAuthenticatedProtected": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+          "s3PermissionsAuthenticatedPublic": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+          "s3PermissionsAuthenticatedUploads": "s3:PutObject",
+          "s3PermissionsGuestPublic": "s3:GetObject",
+          "s3PermissionsGuestUploads": "DISALLOW",
+          "env": "dev"
+        },
+        "preserveLogicalIds": true,
+        "loadNestedStacks": {}
+      }
+    }
+  }
+}

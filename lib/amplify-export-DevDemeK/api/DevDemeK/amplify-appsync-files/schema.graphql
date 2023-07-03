@@ -1,0 +1,2139 @@
+type User @aws_iam @aws_cognito_user_pools @aws_api_key {
+  id: ID!
+  userAddress: String
+  followedGroupsCount: Int
+  followedUsersCount: Int
+  followingUsersCount: Int
+  profileUsername: String
+  fullname: String
+  pronoun: String
+  backgroundColor: String
+  dateOfBirth: AWSTimestamp
+  email: String
+  bio: String
+  profilePicCid: String
+  nftAddress: String
+  ownedID: Int
+  telephone: String
+  discord: String
+  instagram: String
+  twitter: String
+  tiktok: String
+  telegram: String
+  youtube: String
+  tags: [String]
+  isAccountEnabled: Boolean
+  posts(filter: ModelPostFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelPostConnection
+  comments(filter: ModelCommentFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelCommentConnection
+  replies(filter: ModelReplyFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelReplyConnection
+  wallets(filter: ModelWalletFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelWalletConnection
+  votes(filter: ModelVoteFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelVoteConnection
+  likes(filter: ModelLikesFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelLikesConnection
+  reports(filter: ModelReportFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelReportConnection
+  owner: String
+  userGroups(filter: ModelGroupFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelGroupConnection
+  userGroupRelations(filter: ModelUserGroupRelationFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelUserGroupRelationConnection
+  taggedinposts(filter: ModelTaggedUsersInPostFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTaggedUsersInPostConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type Follow @aws_iam @aws_cognito_user_pools {
+  id: ID!
+  userId: String
+  following: String
+  owner: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type Post @aws_iam @aws_cognito_user_pools @aws_api_key {
+  id: ID!
+  type: PostType
+  body: String
+  cid: String
+  tags: [String]
+  groupID: ID
+  group: Group
+  hiddenByAdmin: Boolean
+  hiddenByAuthor: Boolean
+  numberOfComments: Int
+  numberOfLikes: Int
+  nftID: Int
+  isNFT: Boolean
+  numberOfReportedComplaints: Int
+  comments(filter: ModelCommentFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelCommentConnection
+  userID: ID!
+  author: User
+  title: String
+  pollId: ID
+  polls: Poll
+  votes(filter: ModelVoteFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelVoteConnection
+  likes(filter: ModelLikesFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelLikesConnection
+  reports(filter: ModelReportFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelReportConnection
+  taggedusers(filter: ModelTaggedUsersInPostFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTaggedUsersInPostConnection
+  taggedgroups(filter: ModelTaggedGroupsInPostFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTaggedGroupsInPostConnection
+  owner: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type Likes @aws_iam @aws_cognito_user_pools {
+  id: ID!
+  userID: ID!
+  user: User
+  postID: ID!
+  post: Post
+  owner: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type Report @aws_iam @aws_cognito_user_pools {
+  id: ID!
+  userID: ID!
+  user: User
+  postID: ID!
+  post: Post
+  comment: String
+  owner: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+enum PostType {
+  text
+  poll
+  image
+  video
+  link
+}
+
+type Wallet @aws_iam @aws_cognito_user_pools @aws_api_key {
+  id: ID!
+  address: String!
+  userID: ID!
+  user: User
+  owner: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type Comment @aws_iam @aws_cognito_user_pools @aws_api_key {
+  id: ID!
+  body: String
+  numberOfReplies: Int
+  hiddenByAuthor: Boolean
+  hiddenByAdmin: Boolean
+  taggedPeople: [String]
+  taggedGroups: [String]
+  postID: ID!
+  post: Post
+  userID: ID!
+  author: User
+  replies(filter: ModelReplyFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelReplyConnection
+  owner: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type Reply @aws_iam @aws_cognito_user_pools @aws_api_key {
+  id: ID!
+  body: String
+  hiddenByAuthor: Boolean
+  hiddenByAdmin: Boolean
+  taggedPeople: [String]
+  taggedGroups: [String]
+  commentID: ID!
+  comment: Comment
+  userID: ID!
+  author: User
+  owner: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+enum TokenType {
+  ERC20
+  ERC721
+  ERC1155
+}
+
+type Group @aws_iam @aws_cognito_user_pools @aws_api_key {
+  id: ID!
+  authorID: ID
+  author: User
+  numberOfMembers: Int
+  numberOfFollowers: Int
+  name: String
+  about: String
+  twitter: String
+  instagram: String
+  discord: String
+  web: String
+  reddit: String
+  description: String
+  groupDisplayImage: String
+  tags: [String]
+  groupCoverImage: String
+  isPrivate: Boolean
+  nftAddress: String
+  tokenAddress: String
+  tokenType: TokenType
+  chainId: Int
+  taggedinposts(filter: ModelTaggedGroupsInPostFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelTaggedGroupsInPostConnection
+  userGroupRelations(filter: ModelUserGroupRelationFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelUserGroupRelationConnection
+  posts(filter: ModelPostFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelPostConnection
+  owner: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type UserGroupRelation @aws_iam @aws_cognito_user_pools @aws_api_key {
+  id: ID!
+  userID: ID!
+  user: User
+  groupUuid: ID!
+  group: Group
+  typeofRelation: GroupRelationType
+  isActive: Boolean
+  isMuted: Boolean
+  mutedDuration: AWSTimestamp
+  muteReason: String
+  owner: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+enum GroupRelationType {
+  follow
+  member
+  admin
+}
+
+type InviteCode @aws_iam @aws_cognito_user_pools @aws_api_key {
+  id: ID!
+  code: String
+  status: InviteStatus
+  userID: String
+  owner: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+enum InviteStatus {
+  active
+  used
+  success
+  expired
+}
+
+type Interest @aws_iam @aws_cognito_user_pools @aws_api_key {
+  id: ID!
+  interest: String
+  owner: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type Poll @aws_iam @aws_cognito_user_pools @aws_api_key {
+  id: ID!
+  postID: ID!
+  post: Post!
+  options(filter: ModelOptionFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelOptionConnection
+  resultCount: String
+  owner: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type Option @aws_iam @aws_cognito_user_pools @aws_api_key {
+  id: ID!
+  option: String!
+  pollId: ID!
+  poll: Poll!
+  selectedbyusers: [ID]
+  owner: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type Vote @aws_iam @aws_cognito_user_pools @aws_api_key {
+  id: ID!
+  postID: ID!
+  post: Post!
+  userID: ID!
+  user: User!
+  option: Int!
+  owner: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type TaggedUsersInPost @aws_iam @aws_cognito_user_pools @aws_api_key {
+  id: ID!
+  user: User
+  post: Post
+  dx: Float
+  dy: Float
+  owner: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+  userTaggedinpostsId: ID
+  postTaggedusersId: ID
+}
+
+type TaggedGroupsInPost @aws_iam @aws_cognito_user_pools @aws_api_key {
+  id: ID!
+  group: Group
+  post: Post
+  dx: Float
+  dy: Float
+  owner: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+  postTaggedgroupsId: ID
+  groupTaggedinpostsId: ID
+}
+
+type Query {
+  checkInviteCode(code: String): LambdaResponse @aws_api_key @aws_iam @aws_cognito_user_pools
+  fetchWaitListByEmail(email: String): LambdaResponse @aws_api_key @aws_iam @aws_cognito_user_pools
+  fetchWaitListByInviteLink(shareinvitelink: String): LambdaResponse @aws_api_key @aws_iam @aws_cognito_user_pools
+  getUser(id: ID!): User @aws_api_key @aws_iam @aws_cognito_user_pools
+  listUsers(filter: ModelUserFilterInput, limit: Int, nextToken: String): ModelUserConnection @aws_api_key @aws_iam @aws_cognito_user_pools
+  syncUsers(filter: ModelUserFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelUserConnection @aws_api_key @aws_iam @aws_cognito_user_pools
+  getFollow(id: ID!): Follow @aws_iam @aws_cognito_user_pools
+  listFollows(filter: ModelFollowFilterInput, limit: Int, nextToken: String): ModelFollowConnection @aws_iam @aws_cognito_user_pools
+  syncFollows(filter: ModelFollowFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelFollowConnection @aws_iam @aws_cognito_user_pools
+  getPost(id: ID!): Post @aws_iam @aws_cognito_user_pools
+  listPosts(filter: ModelPostFilterInput, limit: Int, nextToken: String): ModelPostConnection @aws_iam @aws_cognito_user_pools
+  syncPosts(filter: ModelPostFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelPostConnection @aws_iam @aws_cognito_user_pools
+  postsByGroupID(groupID: ID!, sortDirection: ModelSortDirection, filter: ModelPostFilterInput, limit: Int, nextToken: String): ModelPostConnection @aws_iam @aws_cognito_user_pools
+  postsByUserID(userID: ID!, sortDirection: ModelSortDirection, filter: ModelPostFilterInput, limit: Int, nextToken: String): ModelPostConnection @aws_iam @aws_cognito_user_pools
+  getLikes(id: ID!): Likes @aws_iam @aws_cognito_user_pools
+  listLikes(filter: ModelLikesFilterInput, limit: Int, nextToken: String): ModelLikesConnection @aws_iam @aws_cognito_user_pools
+  syncLikes(filter: ModelLikesFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelLikesConnection @aws_iam @aws_cognito_user_pools
+  likesByUserID(userID: ID!, sortDirection: ModelSortDirection, filter: ModelLikesFilterInput, limit: Int, nextToken: String): ModelLikesConnection @aws_iam @aws_cognito_user_pools
+  likesByPostID(postID: ID!, sortDirection: ModelSortDirection, filter: ModelLikesFilterInput, limit: Int, nextToken: String): ModelLikesConnection @aws_iam @aws_cognito_user_pools
+  getReport(id: ID!): Report @aws_iam @aws_cognito_user_pools
+  listReports(filter: ModelReportFilterInput, limit: Int, nextToken: String): ModelReportConnection @aws_iam @aws_cognito_user_pools
+  syncReports(filter: ModelReportFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelReportConnection @aws_iam @aws_cognito_user_pools
+  reportsByUserID(userID: ID!, sortDirection: ModelSortDirection, filter: ModelReportFilterInput, limit: Int, nextToken: String): ModelReportConnection @aws_iam @aws_cognito_user_pools
+  reportsByPostID(postID: ID!, sortDirection: ModelSortDirection, filter: ModelReportFilterInput, limit: Int, nextToken: String): ModelReportConnection @aws_iam @aws_cognito_user_pools
+  getWallet(id: ID!): Wallet @aws_api_key @aws_iam @aws_cognito_user_pools
+  listWallets(filter: ModelWalletFilterInput, limit: Int, nextToken: String): ModelWalletConnection @aws_api_key @aws_iam @aws_cognito_user_pools
+  syncWallets(filter: ModelWalletFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelWalletConnection @aws_api_key @aws_iam @aws_cognito_user_pools
+  walletsByUserID(userID: ID!, sortDirection: ModelSortDirection, filter: ModelWalletFilterInput, limit: Int, nextToken: String): ModelWalletConnection @aws_api_key @aws_iam @aws_cognito_user_pools
+  getComment(id: ID!): Comment @aws_iam @aws_cognito_user_pools
+  listComments(filter: ModelCommentFilterInput, limit: Int, nextToken: String): ModelCommentConnection @aws_iam @aws_cognito_user_pools
+  syncComments(filter: ModelCommentFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelCommentConnection @aws_iam @aws_cognito_user_pools
+  commentsByPostID(postID: ID!, sortDirection: ModelSortDirection, filter: ModelCommentFilterInput, limit: Int, nextToken: String): ModelCommentConnection @aws_iam @aws_cognito_user_pools
+  commentsByUserID(userID: ID!, sortDirection: ModelSortDirection, filter: ModelCommentFilterInput, limit: Int, nextToken: String): ModelCommentConnection @aws_iam @aws_cognito_user_pools
+  getReply(id: ID!): Reply @aws_iam @aws_cognito_user_pools
+  listReplies(filter: ModelReplyFilterInput, limit: Int, nextToken: String): ModelReplyConnection @aws_iam @aws_cognito_user_pools
+  syncReplies(filter: ModelReplyFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelReplyConnection @aws_iam @aws_cognito_user_pools
+  repliesByCommentID(commentID: ID!, sortDirection: ModelSortDirection, filter: ModelReplyFilterInput, limit: Int, nextToken: String): ModelReplyConnection @aws_iam @aws_cognito_user_pools
+  repliesByUserID(userID: ID!, sortDirection: ModelSortDirection, filter: ModelReplyFilterInput, limit: Int, nextToken: String): ModelReplyConnection @aws_iam @aws_cognito_user_pools
+  getGroup(id: ID!): Group @aws_iam @aws_cognito_user_pools
+  listGroups(filter: ModelGroupFilterInput, limit: Int, nextToken: String): ModelGroupConnection @aws_iam @aws_cognito_user_pools
+  syncGroups(filter: ModelGroupFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelGroupConnection @aws_iam @aws_cognito_user_pools
+  groupsByAuthorID(authorID: ID!, sortDirection: ModelSortDirection, filter: ModelGroupFilterInput, limit: Int, nextToken: String): ModelGroupConnection @aws_iam @aws_cognito_user_pools
+  getUserGroupRelation(id: ID!): UserGroupRelation @aws_iam @aws_cognito_user_pools
+  listUserGroupRelations(filter: ModelUserGroupRelationFilterInput, limit: Int, nextToken: String): ModelUserGroupRelationConnection @aws_iam @aws_cognito_user_pools
+  syncUserGroupRelations(filter: ModelUserGroupRelationFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelUserGroupRelationConnection @aws_iam @aws_cognito_user_pools
+  userGroupRelationsByUserID(userID: ID!, sortDirection: ModelSortDirection, filter: ModelUserGroupRelationFilterInput, limit: Int, nextToken: String): ModelUserGroupRelationConnection @aws_iam @aws_cognito_user_pools
+  userGroupRelationsByGroupUuid(groupUuid: ID!, sortDirection: ModelSortDirection, filter: ModelUserGroupRelationFilterInput, limit: Int, nextToken: String): ModelUserGroupRelationConnection @aws_iam @aws_cognito_user_pools
+  getInviteCode(id: ID!): InviteCode @aws_api_key @aws_iam
+  listInviteCodes(filter: ModelInviteCodeFilterInput, limit: Int, nextToken: String): ModelInviteCodeConnection @aws_api_key @aws_iam
+  syncInviteCodes(filter: ModelInviteCodeFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelInviteCodeConnection @aws_api_key @aws_iam
+  getInterest(id: ID!): Interest @aws_api_key @aws_iam @aws_cognito_user_pools
+  listInterests(filter: ModelInterestFilterInput, limit: Int, nextToken: String): ModelInterestConnection @aws_api_key @aws_iam @aws_cognito_user_pools
+  syncInterests(filter: ModelInterestFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelInterestConnection @aws_api_key @aws_iam @aws_cognito_user_pools
+  getPoll(id: ID!): Poll @aws_iam @aws_cognito_user_pools
+  listPolls(filter: ModelPollFilterInput, limit: Int, nextToken: String): ModelPollConnection @aws_iam @aws_cognito_user_pools
+  syncPolls(filter: ModelPollFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelPollConnection @aws_iam @aws_cognito_user_pools
+  getOption(id: ID!): Option @aws_iam @aws_cognito_user_pools
+  listOptions(filter: ModelOptionFilterInput, limit: Int, nextToken: String): ModelOptionConnection @aws_iam @aws_cognito_user_pools
+  syncOptions(filter: ModelOptionFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelOptionConnection @aws_iam @aws_cognito_user_pools
+  optionsByPollId(pollId: ID!, sortDirection: ModelSortDirection, filter: ModelOptionFilterInput, limit: Int, nextToken: String): ModelOptionConnection @aws_iam @aws_cognito_user_pools
+  getVote(id: ID!): Vote @aws_iam @aws_cognito_user_pools
+  listVotes(filter: ModelVoteFilterInput, limit: Int, nextToken: String): ModelVoteConnection @aws_iam @aws_cognito_user_pools
+  syncVotes(filter: ModelVoteFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelVoteConnection @aws_iam @aws_cognito_user_pools
+  votesByPostID(postID: ID!, sortDirection: ModelSortDirection, filter: ModelVoteFilterInput, limit: Int, nextToken: String): ModelVoteConnection @aws_iam @aws_cognito_user_pools
+  votesByUserID(userID: ID!, sortDirection: ModelSortDirection, filter: ModelVoteFilterInput, limit: Int, nextToken: String): ModelVoteConnection @aws_iam @aws_cognito_user_pools
+  getTaggedUsersInPost(id: ID!): TaggedUsersInPost @aws_iam @aws_cognito_user_pools
+  listTaggedUsersInPosts(filter: ModelTaggedUsersInPostFilterInput, limit: Int, nextToken: String): ModelTaggedUsersInPostConnection @aws_iam @aws_cognito_user_pools
+  syncTaggedUsersInPosts(filter: ModelTaggedUsersInPostFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelTaggedUsersInPostConnection @aws_iam @aws_cognito_user_pools
+  getTaggedGroupsInPost(id: ID!): TaggedGroupsInPost @aws_iam @aws_cognito_user_pools
+  listTaggedGroupsInPosts(filter: ModelTaggedGroupsInPostFilterInput, limit: Int, nextToken: String): ModelTaggedGroupsInPostConnection @aws_iam @aws_cognito_user_pools
+  syncTaggedGroupsInPosts(filter: ModelTaggedGroupsInPostFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelTaggedGroupsInPostConnection @aws_iam @aws_cognito_user_pools
+  getJoinWaitList(id: ID!): JoinWaitList @aws_iam @aws_cognito_user_pools
+  listJoinWaitLists(filter: ModelJoinWaitListFilterInput, limit: Int, nextToken: String): ModelJoinWaitListConnection @aws_iam @aws_cognito_user_pools
+  syncJoinWaitLists(filter: ModelJoinWaitListFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelJoinWaitListConnection @aws_iam @aws_cognito_user_pools
+  waitlistbyEmail(email: String!, sortDirection: ModelSortDirection, filter: ModelJoinWaitListFilterInput, limit: Int, nextToken: String): ModelJoinWaitListConnection @aws_iam @aws_cognito_user_pools
+  waitlistbyInviteLink(shareinvitelink: String!, sortDirection: ModelSortDirection, filter: ModelJoinWaitListFilterInput, limit: Int, nextToken: String): ModelJoinWaitListConnection @aws_iam @aws_cognito_user_pools
+}
+
+type LambdaResponse {
+  status: Int!
+  body: String!
+}
+
+input MuteUserInput {
+  groupId: String!
+  userId: String!
+  mute_type: String!
+  muteUserId: String!
+  muteReason: String
+  startTime: String
+  endTime: String
+}
+
+type Mutation {
+  muteUser(input: MuteUserInput): LambdaResponse @aws_api_key @aws_iam @aws_cognito_user_pools
+  createUser(input: CreateUserInput!, condition: ModelUserConditionInput): User @aws_iam @aws_cognito_user_pools
+  updateUser(input: UpdateUserInput!, condition: ModelUserConditionInput): User @aws_iam @aws_cognito_user_pools
+  deleteUser(input: DeleteUserInput!, condition: ModelUserConditionInput): User @aws_api_key @aws_iam
+  createFollow(input: CreateFollowInput!, condition: ModelFollowConditionInput): Follow @aws_iam @aws_cognito_user_pools
+  updateFollow(input: UpdateFollowInput!, condition: ModelFollowConditionInput): Follow @aws_iam @aws_cognito_user_pools
+  deleteFollow(input: DeleteFollowInput!, condition: ModelFollowConditionInput): Follow @aws_iam @aws_cognito_user_pools
+  createPost(input: CreatePostInput!, condition: ModelPostConditionInput): Post @aws_iam @aws_cognito_user_pools
+  updatePost(input: UpdatePostInput!, condition: ModelPostConditionInput): Post @aws_iam @aws_cognito_user_pools
+  deletePost(input: DeletePostInput!, condition: ModelPostConditionInput): Post @aws_api_key @aws_iam
+  createLikes(input: CreateLikesInput!, condition: ModelLikesConditionInput): Likes @aws_iam @aws_cognito_user_pools
+  updateLikes(input: UpdateLikesInput!, condition: ModelLikesConditionInput): Likes @aws_iam @aws_cognito_user_pools
+  deleteLikes(input: DeleteLikesInput!, condition: ModelLikesConditionInput): Likes @aws_iam @aws_cognito_user_pools
+  createReport(input: CreateReportInput!, condition: ModelReportConditionInput): Report @aws_iam @aws_cognito_user_pools
+  updateReport(input: UpdateReportInput!, condition: ModelReportConditionInput): Report @aws_iam @aws_cognito_user_pools
+  deleteReport(input: DeleteReportInput!, condition: ModelReportConditionInput): Report @aws_iam @aws_cognito_user_pools
+  createWallet(input: CreateWalletInput!, condition: ModelWalletConditionInput): Wallet @aws_iam @aws_cognito_user_pools
+  updateWallet(input: UpdateWalletInput!, condition: ModelWalletConditionInput): Wallet @aws_iam @aws_cognito_user_pools
+  deleteWallet(input: DeleteWalletInput!, condition: ModelWalletConditionInput): Wallet @aws_api_key @aws_iam
+  createComment(input: CreateCommentInput!, condition: ModelCommentConditionInput): Comment @aws_iam @aws_cognito_user_pools
+  updateComment(input: UpdateCommentInput!, condition: ModelCommentConditionInput): Comment @aws_iam @aws_cognito_user_pools
+  deleteComment(input: DeleteCommentInput!, condition: ModelCommentConditionInput): Comment @aws_api_key @aws_iam
+  createReply(input: CreateReplyInput!, condition: ModelReplyConditionInput): Reply @aws_iam @aws_cognito_user_pools
+  updateReply(input: UpdateReplyInput!, condition: ModelReplyConditionInput): Reply @aws_iam @aws_cognito_user_pools
+  deleteReply(input: DeleteReplyInput!, condition: ModelReplyConditionInput): Reply @aws_api_key @aws_iam
+  createGroup(input: CreateGroupInput!, condition: ModelGroupConditionInput): Group @aws_iam @aws_cognito_user_pools
+  updateGroup(input: UpdateGroupInput!, condition: ModelGroupConditionInput): Group @aws_iam @aws_cognito_user_pools
+  deleteGroup(input: DeleteGroupInput!, condition: ModelGroupConditionInput): Group @aws_api_key @aws_iam
+  createUserGroupRelation(input: CreateUserGroupRelationInput!, condition: ModelUserGroupRelationConditionInput): UserGroupRelation @aws_iam @aws_cognito_user_pools
+  updateUserGroupRelation(input: UpdateUserGroupRelationInput!, condition: ModelUserGroupRelationConditionInput): UserGroupRelation @aws_iam @aws_cognito_user_pools
+  deleteUserGroupRelation(input: DeleteUserGroupRelationInput!, condition: ModelUserGroupRelationConditionInput): UserGroupRelation @aws_api_key @aws_iam
+  createInviteCode(input: CreateInviteCodeInput!, condition: ModelInviteCodeConditionInput): InviteCode @aws_iam @aws_cognito_user_pools
+  updateInviteCode(input: UpdateInviteCodeInput!, condition: ModelInviteCodeConditionInput): InviteCode @aws_iam @aws_cognito_user_pools
+  deleteInviteCode(input: DeleteInviteCodeInput!, condition: ModelInviteCodeConditionInput): InviteCode @aws_iam @aws_cognito_user_pools
+  createInterest(input: CreateInterestInput!, condition: ModelInterestConditionInput): Interest @aws_api_key @aws_iam @aws_cognito_user_pools
+  updateInterest(input: UpdateInterestInput!, condition: ModelInterestConditionInput): Interest @aws_api_key @aws_iam
+  deleteInterest(input: DeleteInterestInput!, condition: ModelInterestConditionInput): Interest @aws_api_key @aws_iam
+  createPoll(input: CreatePollInput!, condition: ModelPollConditionInput): Poll @aws_iam @aws_cognito_user_pools
+  updatePoll(input: UpdatePollInput!, condition: ModelPollConditionInput): Poll @aws_iam @aws_cognito_user_pools
+  deletePoll(input: DeletePollInput!, condition: ModelPollConditionInput): Poll @aws_api_key @aws_iam
+  createOption(input: CreateOptionInput!, condition: ModelOptionConditionInput): Option @aws_iam @aws_cognito_user_pools
+  updateOption(input: UpdateOptionInput!, condition: ModelOptionConditionInput): Option @aws_iam @aws_cognito_user_pools
+  deleteOption(input: DeleteOptionInput!, condition: ModelOptionConditionInput): Option @aws_api_key @aws_iam
+  createVote(input: CreateVoteInput!, condition: ModelVoteConditionInput): Vote @aws_iam @aws_cognito_user_pools
+  updateVote(input: UpdateVoteInput!, condition: ModelVoteConditionInput): Vote @aws_iam @aws_cognito_user_pools
+  deleteVote(input: DeleteVoteInput!, condition: ModelVoteConditionInput): Vote @aws_api_key @aws_iam
+  createTaggedUsersInPost(input: CreateTaggedUsersInPostInput!, condition: ModelTaggedUsersInPostConditionInput): TaggedUsersInPost @aws_iam @aws_cognito_user_pools
+  updateTaggedUsersInPost(input: UpdateTaggedUsersInPostInput!, condition: ModelTaggedUsersInPostConditionInput): TaggedUsersInPost @aws_iam @aws_cognito_user_pools
+  deleteTaggedUsersInPost(input: DeleteTaggedUsersInPostInput!, condition: ModelTaggedUsersInPostConditionInput): TaggedUsersInPost @aws_api_key @aws_iam
+  createTaggedGroupsInPost(input: CreateTaggedGroupsInPostInput!, condition: ModelTaggedGroupsInPostConditionInput): TaggedGroupsInPost @aws_iam @aws_cognito_user_pools
+  updateTaggedGroupsInPost(input: UpdateTaggedGroupsInPostInput!, condition: ModelTaggedGroupsInPostConditionInput): TaggedGroupsInPost @aws_iam @aws_cognito_user_pools
+  deleteTaggedGroupsInPost(input: DeleteTaggedGroupsInPostInput!, condition: ModelTaggedGroupsInPostConditionInput): TaggedGroupsInPost @aws_api_key @aws_iam
+  createJoinWaitList(input: CreateJoinWaitListInput!, condition: ModelJoinWaitListConditionInput): JoinWaitList @aws_api_key @aws_iam @aws_cognito_user_pools
+  updateJoinWaitList(input: UpdateJoinWaitListInput!, condition: ModelJoinWaitListConditionInput): JoinWaitList @aws_api_key @aws_iam @aws_cognito_user_pools
+  deleteJoinWaitList(input: DeleteJoinWaitListInput!, condition: ModelJoinWaitListConditionInput): JoinWaitList @aws_api_key @aws_iam
+}
+
+type JoinWaitList @aws_iam @aws_cognito_user_pools @aws_api_key {
+  id: ID!
+  email: String!
+  joincount: Int
+  shareinvitelink: String
+  uniquehash: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+  owner: String
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelSubscriptionStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  in: [String]
+  notIn: [String]
+}
+
+input ModelSubscriptionIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  in: [Int]
+  notIn: [Int]
+}
+
+input ModelSubscriptionFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  in: [Float]
+  notIn: [Float]
+}
+
+input ModelSubscriptionBooleanInput {
+  ne: Boolean
+  eq: Boolean
+}
+
+input ModelSubscriptionIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  in: [ID]
+  notIn: [ID]
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelUserConnection @aws_api_key @aws_iam @aws_cognito_user_pools {
+  items: [User]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelUserFilterInput {
+  id: ModelIDInput
+  userAddress: ModelStringInput
+  followedGroupsCount: ModelIntInput
+  followedUsersCount: ModelIntInput
+  followingUsersCount: ModelIntInput
+  profileUsername: ModelStringInput
+  fullname: ModelStringInput
+  pronoun: ModelStringInput
+  backgroundColor: ModelStringInput
+  dateOfBirth: ModelIntInput
+  email: ModelStringInput
+  bio: ModelStringInput
+  profilePicCid: ModelStringInput
+  nftAddress: ModelStringInput
+  ownedID: ModelIntInput
+  telephone: ModelStringInput
+  discord: ModelStringInput
+  instagram: ModelStringInput
+  twitter: ModelStringInput
+  tiktok: ModelStringInput
+  telegram: ModelStringInput
+  youtube: ModelStringInput
+  tags: ModelStringInput
+  isAccountEnabled: ModelBooleanInput
+  owner: ModelStringInput
+  and: [ModelUserFilterInput]
+  or: [ModelUserFilterInput]
+  not: ModelUserFilterInput
+  _deleted: ModelBooleanInput
+}
+
+input ModelUserConditionInput {
+  userAddress: ModelStringInput
+  followedGroupsCount: ModelIntInput
+  followedUsersCount: ModelIntInput
+  followingUsersCount: ModelIntInput
+  profileUsername: ModelStringInput
+  fullname: ModelStringInput
+  pronoun: ModelStringInput
+  backgroundColor: ModelStringInput
+  dateOfBirth: ModelIntInput
+  email: ModelStringInput
+  bio: ModelStringInput
+  profilePicCid: ModelStringInput
+  nftAddress: ModelStringInput
+  ownedID: ModelIntInput
+  telephone: ModelStringInput
+  discord: ModelStringInput
+  instagram: ModelStringInput
+  twitter: ModelStringInput
+  tiktok: ModelStringInput
+  telegram: ModelStringInput
+  youtube: ModelStringInput
+  tags: ModelStringInput
+  isAccountEnabled: ModelBooleanInput
+  owner: ModelStringInput
+  and: [ModelUserConditionInput]
+  or: [ModelUserConditionInput]
+  not: ModelUserConditionInput
+  _deleted: ModelBooleanInput
+}
+
+input CreateUserInput {
+  id: ID
+  userAddress: String
+  followedGroupsCount: Int
+  followedUsersCount: Int
+  followingUsersCount: Int
+  profileUsername: String
+  fullname: String
+  pronoun: String
+  backgroundColor: String
+  dateOfBirth: AWSTimestamp
+  email: String
+  bio: String
+  profilePicCid: String
+  nftAddress: String
+  ownedID: Int
+  telephone: String
+  discord: String
+  instagram: String
+  twitter: String
+  tiktok: String
+  telegram: String
+  youtube: String
+  tags: [String]
+  isAccountEnabled: Boolean
+  owner: String
+  _version: Int
+}
+
+input UpdateUserInput {
+  id: ID!
+  userAddress: String
+  followedGroupsCount: Int
+  followedUsersCount: Int
+  followingUsersCount: Int
+  profileUsername: String
+  fullname: String
+  pronoun: String
+  backgroundColor: String
+  dateOfBirth: AWSTimestamp
+  email: String
+  bio: String
+  profilePicCid: String
+  nftAddress: String
+  ownedID: Int
+  telephone: String
+  discord: String
+  instagram: String
+  twitter: String
+  tiktok: String
+  telegram: String
+  youtube: String
+  tags: [String]
+  isAccountEnabled: Boolean
+  owner: String
+  _version: Int
+}
+
+input DeleteUserInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionUserFilterInput {
+  id: ModelSubscriptionIDInput
+  userAddress: ModelSubscriptionStringInput
+  followedGroupsCount: ModelSubscriptionIntInput
+  followedUsersCount: ModelSubscriptionIntInput
+  followingUsersCount: ModelSubscriptionIntInput
+  profileUsername: ModelSubscriptionStringInput
+  fullname: ModelSubscriptionStringInput
+  pronoun: ModelSubscriptionStringInput
+  backgroundColor: ModelSubscriptionStringInput
+  dateOfBirth: ModelSubscriptionIntInput
+  email: ModelSubscriptionStringInput
+  bio: ModelSubscriptionStringInput
+  profilePicCid: ModelSubscriptionStringInput
+  nftAddress: ModelSubscriptionStringInput
+  ownedID: ModelSubscriptionIntInput
+  telephone: ModelSubscriptionStringInput
+  discord: ModelSubscriptionStringInput
+  instagram: ModelSubscriptionStringInput
+  twitter: ModelSubscriptionStringInput
+  tiktok: ModelSubscriptionStringInput
+  telegram: ModelSubscriptionStringInput
+  youtube: ModelSubscriptionStringInput
+  tags: ModelSubscriptionStringInput
+  isAccountEnabled: ModelSubscriptionBooleanInput
+  and: [ModelSubscriptionUserFilterInput]
+  or: [ModelSubscriptionUserFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type Subscription {
+  onCreateUser(filter: ModelSubscriptionUserFilterInput, owner: String): User @aws_subscribe(mutations: ["createUser"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onUpdateUser(filter: ModelSubscriptionUserFilterInput, owner: String): User @aws_subscribe(mutations: ["updateUser"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onDeleteUser(filter: ModelSubscriptionUserFilterInput, owner: String): User @aws_subscribe(mutations: ["deleteUser"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onCreateFollow(filter: ModelSubscriptionFollowFilterInput, owner: String): Follow @aws_subscribe(mutations: ["createFollow"]) @aws_iam @aws_cognito_user_pools
+  onUpdateFollow(filter: ModelSubscriptionFollowFilterInput, owner: String): Follow @aws_subscribe(mutations: ["updateFollow"]) @aws_iam @aws_cognito_user_pools
+  onDeleteFollow(filter: ModelSubscriptionFollowFilterInput, owner: String): Follow @aws_subscribe(mutations: ["deleteFollow"]) @aws_iam @aws_cognito_user_pools
+  onCreatePost(filter: ModelSubscriptionPostFilterInput, owner: String): Post @aws_subscribe(mutations: ["createPost"]) @aws_iam @aws_cognito_user_pools
+  onUpdatePost(filter: ModelSubscriptionPostFilterInput, owner: String): Post @aws_subscribe(mutations: ["updatePost"]) @aws_iam @aws_cognito_user_pools
+  onDeletePost(filter: ModelSubscriptionPostFilterInput, owner: String): Post @aws_subscribe(mutations: ["deletePost"]) @aws_iam @aws_cognito_user_pools
+  onCreateLikes(filter: ModelSubscriptionLikesFilterInput, owner: String): Likes @aws_subscribe(mutations: ["createLikes"]) @aws_iam @aws_cognito_user_pools
+  onUpdateLikes(filter: ModelSubscriptionLikesFilterInput, owner: String): Likes @aws_subscribe(mutations: ["updateLikes"]) @aws_iam @aws_cognito_user_pools
+  onDeleteLikes(filter: ModelSubscriptionLikesFilterInput, owner: String): Likes @aws_subscribe(mutations: ["deleteLikes"]) @aws_iam @aws_cognito_user_pools
+  onCreateReport(filter: ModelSubscriptionReportFilterInput, owner: String): Report @aws_subscribe(mutations: ["createReport"]) @aws_iam @aws_cognito_user_pools
+  onUpdateReport(filter: ModelSubscriptionReportFilterInput, owner: String): Report @aws_subscribe(mutations: ["updateReport"]) @aws_iam @aws_cognito_user_pools
+  onDeleteReport(filter: ModelSubscriptionReportFilterInput, owner: String): Report @aws_subscribe(mutations: ["deleteReport"]) @aws_iam @aws_cognito_user_pools
+  onCreateWallet(filter: ModelSubscriptionWalletFilterInput, owner: String): Wallet @aws_subscribe(mutations: ["createWallet"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onUpdateWallet(filter: ModelSubscriptionWalletFilterInput, owner: String): Wallet @aws_subscribe(mutations: ["updateWallet"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onDeleteWallet(filter: ModelSubscriptionWalletFilterInput, owner: String): Wallet @aws_subscribe(mutations: ["deleteWallet"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onCreateComment(filter: ModelSubscriptionCommentFilterInput, owner: String): Comment @aws_subscribe(mutations: ["createComment"]) @aws_iam @aws_cognito_user_pools
+  onUpdateComment(filter: ModelSubscriptionCommentFilterInput, owner: String): Comment @aws_subscribe(mutations: ["updateComment"]) @aws_iam @aws_cognito_user_pools
+  onDeleteComment(filter: ModelSubscriptionCommentFilterInput, owner: String): Comment @aws_subscribe(mutations: ["deleteComment"]) @aws_iam @aws_cognito_user_pools
+  onCreateReply(filter: ModelSubscriptionReplyFilterInput, owner: String): Reply @aws_subscribe(mutations: ["createReply"]) @aws_iam @aws_cognito_user_pools
+  onUpdateReply(filter: ModelSubscriptionReplyFilterInput, owner: String): Reply @aws_subscribe(mutations: ["updateReply"]) @aws_iam @aws_cognito_user_pools
+  onDeleteReply(filter: ModelSubscriptionReplyFilterInput, owner: String): Reply @aws_subscribe(mutations: ["deleteReply"]) @aws_iam @aws_cognito_user_pools
+  onCreateGroup(filter: ModelSubscriptionGroupFilterInput, owner: String): Group @aws_subscribe(mutations: ["createGroup"]) @aws_iam @aws_cognito_user_pools
+  onUpdateGroup(filter: ModelSubscriptionGroupFilterInput, owner: String): Group @aws_subscribe(mutations: ["updateGroup"]) @aws_iam @aws_cognito_user_pools
+  onDeleteGroup(filter: ModelSubscriptionGroupFilterInput, owner: String): Group @aws_subscribe(mutations: ["deleteGroup"]) @aws_iam @aws_cognito_user_pools
+  onCreateUserGroupRelation(filter: ModelSubscriptionUserGroupRelationFilterInput, owner: String): UserGroupRelation @aws_subscribe(mutations: ["createUserGroupRelation"]) @aws_iam @aws_cognito_user_pools
+  onUpdateUserGroupRelation(filter: ModelSubscriptionUserGroupRelationFilterInput, owner: String): UserGroupRelation @aws_subscribe(mutations: ["updateUserGroupRelation"]) @aws_iam @aws_cognito_user_pools
+  onDeleteUserGroupRelation(filter: ModelSubscriptionUserGroupRelationFilterInput, owner: String): UserGroupRelation @aws_subscribe(mutations: ["deleteUserGroupRelation"]) @aws_iam @aws_cognito_user_pools
+  onCreateInviteCode(filter: ModelSubscriptionInviteCodeFilterInput): InviteCode @aws_subscribe(mutations: ["createInviteCode"]) @aws_api_key @aws_iam
+  onUpdateInviteCode(filter: ModelSubscriptionInviteCodeFilterInput): InviteCode @aws_subscribe(mutations: ["updateInviteCode"]) @aws_api_key @aws_iam
+  onDeleteInviteCode(filter: ModelSubscriptionInviteCodeFilterInput): InviteCode @aws_subscribe(mutations: ["deleteInviteCode"]) @aws_api_key @aws_iam
+  onCreateInterest(filter: ModelSubscriptionInterestFilterInput, owner: String): Interest @aws_subscribe(mutations: ["createInterest"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onUpdateInterest(filter: ModelSubscriptionInterestFilterInput, owner: String): Interest @aws_subscribe(mutations: ["updateInterest"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onDeleteInterest(filter: ModelSubscriptionInterestFilterInput, owner: String): Interest @aws_subscribe(mutations: ["deleteInterest"]) @aws_api_key @aws_iam @aws_cognito_user_pools
+  onCreatePoll(filter: ModelSubscriptionPollFilterInput, owner: String): Poll @aws_subscribe(mutations: ["createPoll"]) @aws_iam @aws_cognito_user_pools
+  onUpdatePoll(filter: ModelSubscriptionPollFilterInput, owner: String): Poll @aws_subscribe(mutations: ["updatePoll"]) @aws_iam @aws_cognito_user_pools
+  onDeletePoll(filter: ModelSubscriptionPollFilterInput, owner: String): Poll @aws_subscribe(mutations: ["deletePoll"]) @aws_iam @aws_cognito_user_pools
+  onCreateOption(filter: ModelSubscriptionOptionFilterInput, owner: String): Option @aws_subscribe(mutations: ["createOption"]) @aws_iam @aws_cognito_user_pools
+  onUpdateOption(filter: ModelSubscriptionOptionFilterInput, owner: String): Option @aws_subscribe(mutations: ["updateOption"]) @aws_iam @aws_cognito_user_pools
+  onDeleteOption(filter: ModelSubscriptionOptionFilterInput, owner: String): Option @aws_subscribe(mutations: ["deleteOption"]) @aws_iam @aws_cognito_user_pools
+  onCreateVote(filter: ModelSubscriptionVoteFilterInput, owner: String): Vote @aws_subscribe(mutations: ["createVote"]) @aws_iam @aws_cognito_user_pools
+  onUpdateVote(filter: ModelSubscriptionVoteFilterInput, owner: String): Vote @aws_subscribe(mutations: ["updateVote"]) @aws_iam @aws_cognito_user_pools
+  onDeleteVote(filter: ModelSubscriptionVoteFilterInput, owner: String): Vote @aws_subscribe(mutations: ["deleteVote"]) @aws_iam @aws_cognito_user_pools
+  onCreateTaggedUsersInPost(filter: ModelSubscriptionTaggedUsersInPostFilterInput, owner: String): TaggedUsersInPost @aws_subscribe(mutations: ["createTaggedUsersInPost"]) @aws_iam @aws_cognito_user_pools
+  onUpdateTaggedUsersInPost(filter: ModelSubscriptionTaggedUsersInPostFilterInput, owner: String): TaggedUsersInPost @aws_subscribe(mutations: ["updateTaggedUsersInPost"]) @aws_iam @aws_cognito_user_pools
+  onDeleteTaggedUsersInPost(filter: ModelSubscriptionTaggedUsersInPostFilterInput, owner: String): TaggedUsersInPost @aws_subscribe(mutations: ["deleteTaggedUsersInPost"]) @aws_iam @aws_cognito_user_pools
+  onCreateTaggedGroupsInPost(filter: ModelSubscriptionTaggedGroupsInPostFilterInput, owner: String): TaggedGroupsInPost @aws_subscribe(mutations: ["createTaggedGroupsInPost"]) @aws_iam @aws_cognito_user_pools
+  onUpdateTaggedGroupsInPost(filter: ModelSubscriptionTaggedGroupsInPostFilterInput, owner: String): TaggedGroupsInPost @aws_subscribe(mutations: ["updateTaggedGroupsInPost"]) @aws_iam @aws_cognito_user_pools
+  onDeleteTaggedGroupsInPost(filter: ModelSubscriptionTaggedGroupsInPostFilterInput, owner: String): TaggedGroupsInPost @aws_subscribe(mutations: ["deleteTaggedGroupsInPost"]) @aws_iam @aws_cognito_user_pools
+  onCreateJoinWaitList(filter: ModelSubscriptionJoinWaitListFilterInput, owner: String): JoinWaitList @aws_subscribe(mutations: ["createJoinWaitList"]) @aws_iam @aws_cognito_user_pools
+  onUpdateJoinWaitList(filter: ModelSubscriptionJoinWaitListFilterInput, owner: String): JoinWaitList @aws_subscribe(mutations: ["updateJoinWaitList"]) @aws_iam @aws_cognito_user_pools
+  onDeleteJoinWaitList(filter: ModelSubscriptionJoinWaitListFilterInput, owner: String): JoinWaitList @aws_subscribe(mutations: ["deleteJoinWaitList"]) @aws_iam @aws_cognito_user_pools
+}
+
+type ModelFollowConnection @aws_iam @aws_cognito_user_pools {
+  items: [Follow]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelFollowFilterInput {
+  id: ModelIDInput
+  userId: ModelStringInput
+  following: ModelStringInput
+  owner: ModelStringInput
+  and: [ModelFollowFilterInput]
+  or: [ModelFollowFilterInput]
+  not: ModelFollowFilterInput
+  _deleted: ModelBooleanInput
+}
+
+input ModelFollowConditionInput {
+  userId: ModelStringInput
+  following: ModelStringInput
+  owner: ModelStringInput
+  and: [ModelFollowConditionInput]
+  or: [ModelFollowConditionInput]
+  not: ModelFollowConditionInput
+  _deleted: ModelBooleanInput
+}
+
+input CreateFollowInput {
+  id: ID
+  userId: String
+  following: String
+  owner: String
+  _version: Int
+}
+
+input UpdateFollowInput {
+  id: ID!
+  userId: String
+  following: String
+  owner: String
+  _version: Int
+}
+
+input DeleteFollowInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionFollowFilterInput {
+  id: ModelSubscriptionIDInput
+  userId: ModelSubscriptionStringInput
+  following: ModelSubscriptionStringInput
+  and: [ModelSubscriptionFollowFilterInput]
+  or: [ModelSubscriptionFollowFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type ModelPostConnection @aws_iam @aws_cognito_user_pools @aws_api_key {
+  items: [Post]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelPostTypeInput {
+  eq: PostType
+  ne: PostType
+}
+
+input ModelPostFilterInput {
+  id: ModelIDInput
+  type: ModelPostTypeInput
+  body: ModelStringInput
+  cid: ModelStringInput
+  tags: ModelStringInput
+  groupID: ModelIDInput
+  hiddenByAdmin: ModelBooleanInput
+  hiddenByAuthor: ModelBooleanInput
+  numberOfComments: ModelIntInput
+  numberOfLikes: ModelIntInput
+  nftID: ModelIntInput
+  isNFT: ModelBooleanInput
+  numberOfReportedComplaints: ModelIntInput
+  userID: ModelIDInput
+  title: ModelStringInput
+  pollId: ModelIDInput
+  owner: ModelStringInput
+  and: [ModelPostFilterInput]
+  or: [ModelPostFilterInput]
+  not: ModelPostFilterInput
+  _deleted: ModelBooleanInput
+}
+
+input ModelPostConditionInput {
+  type: ModelPostTypeInput
+  body: ModelStringInput
+  cid: ModelStringInput
+  tags: ModelStringInput
+  groupID: ModelIDInput
+  hiddenByAdmin: ModelBooleanInput
+  hiddenByAuthor: ModelBooleanInput
+  numberOfComments: ModelIntInput
+  numberOfLikes: ModelIntInput
+  nftID: ModelIntInput
+  isNFT: ModelBooleanInput
+  numberOfReportedComplaints: ModelIntInput
+  userID: ModelIDInput
+  title: ModelStringInput
+  pollId: ModelIDInput
+  owner: ModelStringInput
+  and: [ModelPostConditionInput]
+  or: [ModelPostConditionInput]
+  not: ModelPostConditionInput
+  _deleted: ModelBooleanInput
+}
+
+input CreatePostInput {
+  id: ID
+  type: PostType
+  body: String
+  cid: String
+  tags: [String]
+  groupID: ID
+  hiddenByAdmin: Boolean
+  hiddenByAuthor: Boolean
+  numberOfComments: Int
+  numberOfLikes: Int
+  nftID: Int
+  isNFT: Boolean
+  numberOfReportedComplaints: Int
+  userID: ID!
+  title: String
+  pollId: ID
+  owner: String
+  _version: Int
+}
+
+input UpdatePostInput {
+  id: ID!
+  type: PostType
+  body: String
+  cid: String
+  tags: [String]
+  groupID: ID
+  hiddenByAdmin: Boolean
+  hiddenByAuthor: Boolean
+  numberOfComments: Int
+  numberOfLikes: Int
+  nftID: Int
+  isNFT: Boolean
+  numberOfReportedComplaints: Int
+  userID: ID
+  title: String
+  pollId: ID
+  owner: String
+  _version: Int
+}
+
+input DeletePostInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionPostFilterInput {
+  id: ModelSubscriptionIDInput
+  type: ModelSubscriptionStringInput
+  body: ModelSubscriptionStringInput
+  cid: ModelSubscriptionStringInput
+  tags: ModelSubscriptionStringInput
+  groupID: ModelSubscriptionIDInput
+  hiddenByAdmin: ModelSubscriptionBooleanInput
+  hiddenByAuthor: ModelSubscriptionBooleanInput
+  numberOfComments: ModelSubscriptionIntInput
+  numberOfLikes: ModelSubscriptionIntInput
+  nftID: ModelSubscriptionIntInput
+  isNFT: ModelSubscriptionBooleanInput
+  numberOfReportedComplaints: ModelSubscriptionIntInput
+  userID: ModelSubscriptionIDInput
+  title: ModelSubscriptionStringInput
+  pollId: ModelSubscriptionIDInput
+  and: [ModelSubscriptionPostFilterInput]
+  or: [ModelSubscriptionPostFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type ModelLikesConnection @aws_iam @aws_cognito_user_pools @aws_api_key {
+  items: [Likes]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelLikesFilterInput {
+  id: ModelIDInput
+  userID: ModelIDInput
+  postID: ModelIDInput
+  owner: ModelStringInput
+  and: [ModelLikesFilterInput]
+  or: [ModelLikesFilterInput]
+  not: ModelLikesFilterInput
+  _deleted: ModelBooleanInput
+}
+
+input ModelLikesConditionInput {
+  userID: ModelIDInput
+  postID: ModelIDInput
+  owner: ModelStringInput
+  and: [ModelLikesConditionInput]
+  or: [ModelLikesConditionInput]
+  not: ModelLikesConditionInput
+  _deleted: ModelBooleanInput
+}
+
+input CreateLikesInput {
+  id: ID
+  userID: ID!
+  postID: ID!
+  owner: String
+  _version: Int
+}
+
+input UpdateLikesInput {
+  id: ID!
+  userID: ID
+  postID: ID
+  owner: String
+  _version: Int
+}
+
+input DeleteLikesInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionLikesFilterInput {
+  id: ModelSubscriptionIDInput
+  userID: ModelSubscriptionIDInput
+  postID: ModelSubscriptionIDInput
+  and: [ModelSubscriptionLikesFilterInput]
+  or: [ModelSubscriptionLikesFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type ModelReportConnection @aws_iam @aws_cognito_user_pools @aws_api_key {
+  items: [Report]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelReportFilterInput {
+  id: ModelIDInput
+  userID: ModelIDInput
+  postID: ModelIDInput
+  comment: ModelStringInput
+  owner: ModelStringInput
+  and: [ModelReportFilterInput]
+  or: [ModelReportFilterInput]
+  not: ModelReportFilterInput
+  _deleted: ModelBooleanInput
+}
+
+input ModelReportConditionInput {
+  userID: ModelIDInput
+  postID: ModelIDInput
+  comment: ModelStringInput
+  owner: ModelStringInput
+  and: [ModelReportConditionInput]
+  or: [ModelReportConditionInput]
+  not: ModelReportConditionInput
+  _deleted: ModelBooleanInput
+}
+
+input CreateReportInput {
+  id: ID
+  userID: ID!
+  postID: ID!
+  comment: String
+  owner: String
+  _version: Int
+}
+
+input UpdateReportInput {
+  id: ID!
+  userID: ID
+  postID: ID
+  comment: String
+  owner: String
+  _version: Int
+}
+
+input DeleteReportInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionReportFilterInput {
+  id: ModelSubscriptionIDInput
+  userID: ModelSubscriptionIDInput
+  postID: ModelSubscriptionIDInput
+  comment: ModelSubscriptionStringInput
+  and: [ModelSubscriptionReportFilterInput]
+  or: [ModelSubscriptionReportFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type ModelWalletConnection @aws_iam @aws_cognito_user_pools @aws_api_key {
+  items: [Wallet]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelWalletFilterInput {
+  id: ModelIDInput
+  address: ModelStringInput
+  userID: ModelIDInput
+  owner: ModelStringInput
+  and: [ModelWalletFilterInput]
+  or: [ModelWalletFilterInput]
+  not: ModelWalletFilterInput
+  _deleted: ModelBooleanInput
+}
+
+input ModelWalletConditionInput {
+  address: ModelStringInput
+  userID: ModelIDInput
+  owner: ModelStringInput
+  and: [ModelWalletConditionInput]
+  or: [ModelWalletConditionInput]
+  not: ModelWalletConditionInput
+  _deleted: ModelBooleanInput
+}
+
+input CreateWalletInput {
+  id: ID
+  address: String!
+  userID: ID!
+  owner: String
+  _version: Int
+}
+
+input UpdateWalletInput {
+  id: ID!
+  address: String
+  userID: ID
+  owner: String
+  _version: Int
+}
+
+input DeleteWalletInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionWalletFilterInput {
+  id: ModelSubscriptionIDInput
+  address: ModelSubscriptionStringInput
+  userID: ModelSubscriptionIDInput
+  and: [ModelSubscriptionWalletFilterInput]
+  or: [ModelSubscriptionWalletFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type ModelCommentConnection @aws_iam @aws_cognito_user_pools @aws_api_key {
+  items: [Comment]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelCommentFilterInput {
+  id: ModelIDInput
+  body: ModelStringInput
+  numberOfReplies: ModelIntInput
+  hiddenByAuthor: ModelBooleanInput
+  hiddenByAdmin: ModelBooleanInput
+  taggedPeople: ModelStringInput
+  taggedGroups: ModelStringInput
+  postID: ModelIDInput
+  userID: ModelIDInput
+  owner: ModelStringInput
+  and: [ModelCommentFilterInput]
+  or: [ModelCommentFilterInput]
+  not: ModelCommentFilterInput
+  _deleted: ModelBooleanInput
+}
+
+input ModelCommentConditionInput {
+  body: ModelStringInput
+  numberOfReplies: ModelIntInput
+  hiddenByAuthor: ModelBooleanInput
+  hiddenByAdmin: ModelBooleanInput
+  taggedPeople: ModelStringInput
+  taggedGroups: ModelStringInput
+  postID: ModelIDInput
+  userID: ModelIDInput
+  owner: ModelStringInput
+  and: [ModelCommentConditionInput]
+  or: [ModelCommentConditionInput]
+  not: ModelCommentConditionInput
+  _deleted: ModelBooleanInput
+}
+
+input CreateCommentInput {
+  id: ID
+  body: String
+  numberOfReplies: Int
+  hiddenByAuthor: Boolean
+  hiddenByAdmin: Boolean
+  taggedPeople: [String]
+  taggedGroups: [String]
+  postID: ID!
+  userID: ID!
+  owner: String
+  _version: Int
+}
+
+input UpdateCommentInput {
+  id: ID!
+  body: String
+  numberOfReplies: Int
+  hiddenByAuthor: Boolean
+  hiddenByAdmin: Boolean
+  taggedPeople: [String]
+  taggedGroups: [String]
+  postID: ID
+  userID: ID
+  owner: String
+  _version: Int
+}
+
+input DeleteCommentInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionCommentFilterInput {
+  id: ModelSubscriptionIDInput
+  body: ModelSubscriptionStringInput
+  numberOfReplies: ModelSubscriptionIntInput
+  hiddenByAuthor: ModelSubscriptionBooleanInput
+  hiddenByAdmin: ModelSubscriptionBooleanInput
+  taggedPeople: ModelSubscriptionStringInput
+  taggedGroups: ModelSubscriptionStringInput
+  postID: ModelSubscriptionIDInput
+  userID: ModelSubscriptionIDInput
+  and: [ModelSubscriptionCommentFilterInput]
+  or: [ModelSubscriptionCommentFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type ModelReplyConnection @aws_iam @aws_cognito_user_pools @aws_api_key {
+  items: [Reply]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelReplyFilterInput {
+  id: ModelIDInput
+  body: ModelStringInput
+  hiddenByAuthor: ModelBooleanInput
+  hiddenByAdmin: ModelBooleanInput
+  taggedPeople: ModelStringInput
+  taggedGroups: ModelStringInput
+  commentID: ModelIDInput
+  userID: ModelIDInput
+  owner: ModelStringInput
+  and: [ModelReplyFilterInput]
+  or: [ModelReplyFilterInput]
+  not: ModelReplyFilterInput
+  _deleted: ModelBooleanInput
+}
+
+input ModelReplyConditionInput {
+  body: ModelStringInput
+  hiddenByAuthor: ModelBooleanInput
+  hiddenByAdmin: ModelBooleanInput
+  taggedPeople: ModelStringInput
+  taggedGroups: ModelStringInput
+  commentID: ModelIDInput
+  userID: ModelIDInput
+  owner: ModelStringInput
+  and: [ModelReplyConditionInput]
+  or: [ModelReplyConditionInput]
+  not: ModelReplyConditionInput
+  _deleted: ModelBooleanInput
+}
+
+input CreateReplyInput {
+  id: ID
+  body: String
+  hiddenByAuthor: Boolean
+  hiddenByAdmin: Boolean
+  taggedPeople: [String]
+  taggedGroups: [String]
+  commentID: ID!
+  userID: ID!
+  owner: String
+  _version: Int
+}
+
+input UpdateReplyInput {
+  id: ID!
+  body: String
+  hiddenByAuthor: Boolean
+  hiddenByAdmin: Boolean
+  taggedPeople: [String]
+  taggedGroups: [String]
+  commentID: ID
+  userID: ID
+  owner: String
+  _version: Int
+}
+
+input DeleteReplyInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionReplyFilterInput {
+  id: ModelSubscriptionIDInput
+  body: ModelSubscriptionStringInput
+  hiddenByAuthor: ModelSubscriptionBooleanInput
+  hiddenByAdmin: ModelSubscriptionBooleanInput
+  taggedPeople: ModelSubscriptionStringInput
+  taggedGroups: ModelSubscriptionStringInput
+  commentID: ModelSubscriptionIDInput
+  userID: ModelSubscriptionIDInput
+  and: [ModelSubscriptionReplyFilterInput]
+  or: [ModelSubscriptionReplyFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type ModelGroupConnection @aws_iam @aws_cognito_user_pools @aws_api_key {
+  items: [Group]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelTokenTypeInput {
+  eq: TokenType
+  ne: TokenType
+}
+
+input ModelGroupFilterInput {
+  id: ModelIDInput
+  authorID: ModelIDInput
+  numberOfMembers: ModelIntInput
+  numberOfFollowers: ModelIntInput
+  name: ModelStringInput
+  about: ModelStringInput
+  twitter: ModelStringInput
+  instagram: ModelStringInput
+  discord: ModelStringInput
+  web: ModelStringInput
+  reddit: ModelStringInput
+  description: ModelStringInput
+  groupDisplayImage: ModelStringInput
+  tags: ModelStringInput
+  groupCoverImage: ModelStringInput
+  isPrivate: ModelBooleanInput
+  nftAddress: ModelStringInput
+  tokenAddress: ModelStringInput
+  tokenType: ModelTokenTypeInput
+  chainId: ModelIntInput
+  owner: ModelStringInput
+  and: [ModelGroupFilterInput]
+  or: [ModelGroupFilterInput]
+  not: ModelGroupFilterInput
+  _deleted: ModelBooleanInput
+}
+
+input ModelGroupConditionInput {
+  authorID: ModelIDInput
+  numberOfMembers: ModelIntInput
+  numberOfFollowers: ModelIntInput
+  name: ModelStringInput
+  about: ModelStringInput
+  twitter: ModelStringInput
+  instagram: ModelStringInput
+  discord: ModelStringInput
+  web: ModelStringInput
+  reddit: ModelStringInput
+  description: ModelStringInput
+  groupDisplayImage: ModelStringInput
+  tags: ModelStringInput
+  groupCoverImage: ModelStringInput
+  isPrivate: ModelBooleanInput
+  nftAddress: ModelStringInput
+  tokenAddress: ModelStringInput
+  tokenType: ModelTokenTypeInput
+  chainId: ModelIntInput
+  owner: ModelStringInput
+  and: [ModelGroupConditionInput]
+  or: [ModelGroupConditionInput]
+  not: ModelGroupConditionInput
+  _deleted: ModelBooleanInput
+}
+
+input CreateGroupInput {
+  id: ID
+  authorID: ID
+  numberOfMembers: Int
+  numberOfFollowers: Int
+  name: String
+  about: String
+  twitter: String
+  instagram: String
+  discord: String
+  web: String
+  reddit: String
+  description: String
+  groupDisplayImage: String
+  tags: [String]
+  groupCoverImage: String
+  isPrivate: Boolean
+  nftAddress: String
+  tokenAddress: String
+  tokenType: TokenType
+  chainId: Int
+  owner: String
+  _version: Int
+}
+
+input UpdateGroupInput {
+  id: ID!
+  authorID: ID
+  numberOfMembers: Int
+  numberOfFollowers: Int
+  name: String
+  about: String
+  twitter: String
+  instagram: String
+  discord: String
+  web: String
+  reddit: String
+  description: String
+  groupDisplayImage: String
+  tags: [String]
+  groupCoverImage: String
+  isPrivate: Boolean
+  nftAddress: String
+  tokenAddress: String
+  tokenType: TokenType
+  chainId: Int
+  owner: String
+  _version: Int
+}
+
+input DeleteGroupInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionGroupFilterInput {
+  id: ModelSubscriptionIDInput
+  authorID: ModelSubscriptionIDInput
+  numberOfMembers: ModelSubscriptionIntInput
+  numberOfFollowers: ModelSubscriptionIntInput
+  name: ModelSubscriptionStringInput
+  about: ModelSubscriptionStringInput
+  twitter: ModelSubscriptionStringInput
+  instagram: ModelSubscriptionStringInput
+  discord: ModelSubscriptionStringInput
+  web: ModelSubscriptionStringInput
+  reddit: ModelSubscriptionStringInput
+  description: ModelSubscriptionStringInput
+  groupDisplayImage: ModelSubscriptionStringInput
+  tags: ModelSubscriptionStringInput
+  groupCoverImage: ModelSubscriptionStringInput
+  isPrivate: ModelSubscriptionBooleanInput
+  nftAddress: ModelSubscriptionStringInput
+  tokenAddress: ModelSubscriptionStringInput
+  tokenType: ModelSubscriptionStringInput
+  chainId: ModelSubscriptionIntInput
+  and: [ModelSubscriptionGroupFilterInput]
+  or: [ModelSubscriptionGroupFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type ModelUserGroupRelationConnection @aws_iam @aws_cognito_user_pools @aws_api_key {
+  items: [UserGroupRelation]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelGroupRelationTypeInput {
+  eq: GroupRelationType
+  ne: GroupRelationType
+}
+
+input ModelUserGroupRelationFilterInput {
+  id: ModelIDInput
+  userID: ModelIDInput
+  groupUuid: ModelIDInput
+  typeofRelation: ModelGroupRelationTypeInput
+  isActive: ModelBooleanInput
+  isMuted: ModelBooleanInput
+  mutedDuration: ModelIntInput
+  muteReason: ModelStringInput
+  owner: ModelStringInput
+  and: [ModelUserGroupRelationFilterInput]
+  or: [ModelUserGroupRelationFilterInput]
+  not: ModelUserGroupRelationFilterInput
+  _deleted: ModelBooleanInput
+}
+
+input ModelUserGroupRelationConditionInput {
+  userID: ModelIDInput
+  groupUuid: ModelIDInput
+  typeofRelation: ModelGroupRelationTypeInput
+  isActive: ModelBooleanInput
+  isMuted: ModelBooleanInput
+  mutedDuration: ModelIntInput
+  muteReason: ModelStringInput
+  owner: ModelStringInput
+  and: [ModelUserGroupRelationConditionInput]
+  or: [ModelUserGroupRelationConditionInput]
+  not: ModelUserGroupRelationConditionInput
+  _deleted: ModelBooleanInput
+}
+
+input CreateUserGroupRelationInput {
+  id: ID
+  userID: ID!
+  groupUuid: ID!
+  typeofRelation: GroupRelationType
+  isActive: Boolean
+  isMuted: Boolean
+  mutedDuration: AWSTimestamp
+  muteReason: String
+  owner: String
+  _version: Int
+}
+
+input UpdateUserGroupRelationInput {
+  id: ID!
+  userID: ID
+  groupUuid: ID
+  typeofRelation: GroupRelationType
+  isActive: Boolean
+  isMuted: Boolean
+  mutedDuration: AWSTimestamp
+  muteReason: String
+  owner: String
+  _version: Int
+}
+
+input DeleteUserGroupRelationInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionUserGroupRelationFilterInput {
+  id: ModelSubscriptionIDInput
+  userID: ModelSubscriptionIDInput
+  groupUuid: ModelSubscriptionIDInput
+  typeofRelation: ModelSubscriptionStringInput
+  isActive: ModelSubscriptionBooleanInput
+  isMuted: ModelSubscriptionBooleanInput
+  mutedDuration: ModelSubscriptionIntInput
+  muteReason: ModelSubscriptionStringInput
+  and: [ModelSubscriptionUserGroupRelationFilterInput]
+  or: [ModelSubscriptionUserGroupRelationFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type ModelInviteCodeConnection @aws_api_key @aws_iam {
+  items: [InviteCode]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelInviteStatusInput {
+  eq: InviteStatus
+  ne: InviteStatus
+}
+
+input ModelInviteCodeFilterInput {
+  id: ModelIDInput
+  code: ModelStringInput
+  status: ModelInviteStatusInput
+  userID: ModelStringInput
+  owner: ModelStringInput
+  and: [ModelInviteCodeFilterInput]
+  or: [ModelInviteCodeFilterInput]
+  not: ModelInviteCodeFilterInput
+  _deleted: ModelBooleanInput
+}
+
+input ModelInviteCodeConditionInput {
+  code: ModelStringInput
+  status: ModelInviteStatusInput
+  userID: ModelStringInput
+  owner: ModelStringInput
+  and: [ModelInviteCodeConditionInput]
+  or: [ModelInviteCodeConditionInput]
+  not: ModelInviteCodeConditionInput
+  _deleted: ModelBooleanInput
+}
+
+input CreateInviteCodeInput {
+  id: ID
+  code: String
+  status: InviteStatus
+  userID: String
+  owner: String
+  _version: Int
+}
+
+input UpdateInviteCodeInput {
+  id: ID!
+  code: String
+  status: InviteStatus
+  userID: String
+  owner: String
+  _version: Int
+}
+
+input DeleteInviteCodeInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionInviteCodeFilterInput {
+  id: ModelSubscriptionIDInput
+  code: ModelSubscriptionStringInput
+  status: ModelSubscriptionStringInput
+  userID: ModelSubscriptionStringInput
+  and: [ModelSubscriptionInviteCodeFilterInput]
+  or: [ModelSubscriptionInviteCodeFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type ModelInterestConnection @aws_api_key @aws_iam @aws_cognito_user_pools {
+  items: [Interest]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelInterestFilterInput {
+  id: ModelIDInput
+  interest: ModelStringInput
+  owner: ModelStringInput
+  and: [ModelInterestFilterInput]
+  or: [ModelInterestFilterInput]
+  not: ModelInterestFilterInput
+  _deleted: ModelBooleanInput
+}
+
+input ModelInterestConditionInput {
+  interest: ModelStringInput
+  owner: ModelStringInput
+  and: [ModelInterestConditionInput]
+  or: [ModelInterestConditionInput]
+  not: ModelInterestConditionInput
+  _deleted: ModelBooleanInput
+}
+
+input CreateInterestInput {
+  id: ID
+  interest: String
+  owner: String
+  _version: Int
+}
+
+input UpdateInterestInput {
+  id: ID!
+  interest: String
+  owner: String
+  _version: Int
+}
+
+input DeleteInterestInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionInterestFilterInput {
+  id: ModelSubscriptionIDInput
+  interest: ModelSubscriptionStringInput
+  and: [ModelSubscriptionInterestFilterInput]
+  or: [ModelSubscriptionInterestFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type ModelPollConnection @aws_iam @aws_cognito_user_pools {
+  items: [Poll]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelPollFilterInput {
+  id: ModelIDInput
+  postID: ModelIDInput
+  resultCount: ModelStringInput
+  owner: ModelStringInput
+  and: [ModelPollFilterInput]
+  or: [ModelPollFilterInput]
+  not: ModelPollFilterInput
+  _deleted: ModelBooleanInput
+}
+
+input ModelPollConditionInput {
+  postID: ModelIDInput
+  resultCount: ModelStringInput
+  owner: ModelStringInput
+  and: [ModelPollConditionInput]
+  or: [ModelPollConditionInput]
+  not: ModelPollConditionInput
+  _deleted: ModelBooleanInput
+}
+
+input CreatePollInput {
+  id: ID
+  postID: ID!
+  resultCount: String
+  owner: String
+  _version: Int
+}
+
+input UpdatePollInput {
+  id: ID!
+  postID: ID
+  resultCount: String
+  owner: String
+  _version: Int
+}
+
+input DeletePollInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionPollFilterInput {
+  id: ModelSubscriptionIDInput
+  postID: ModelSubscriptionIDInput
+  resultCount: ModelSubscriptionStringInput
+  and: [ModelSubscriptionPollFilterInput]
+  or: [ModelSubscriptionPollFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type ModelOptionConnection @aws_iam @aws_cognito_user_pools {
+  items: [Option]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelOptionFilterInput {
+  id: ModelIDInput
+  option: ModelStringInput
+  pollId: ModelIDInput
+  selectedbyusers: ModelIDInput
+  owner: ModelStringInput
+  and: [ModelOptionFilterInput]
+  or: [ModelOptionFilterInput]
+  not: ModelOptionFilterInput
+  _deleted: ModelBooleanInput
+}
+
+input ModelOptionConditionInput {
+  option: ModelStringInput
+  pollId: ModelIDInput
+  selectedbyusers: ModelIDInput
+  owner: ModelStringInput
+  and: [ModelOptionConditionInput]
+  or: [ModelOptionConditionInput]
+  not: ModelOptionConditionInput
+  _deleted: ModelBooleanInput
+}
+
+input CreateOptionInput {
+  id: ID
+  option: String!
+  pollId: ID!
+  selectedbyusers: [ID]
+  owner: String
+  _version: Int
+}
+
+input UpdateOptionInput {
+  id: ID!
+  option: String
+  pollId: ID
+  selectedbyusers: [ID]
+  owner: String
+  _version: Int
+}
+
+input DeleteOptionInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionOptionFilterInput {
+  id: ModelSubscriptionIDInput
+  option: ModelSubscriptionStringInput
+  pollId: ModelSubscriptionIDInput
+  selectedbyusers: ModelSubscriptionIDInput
+  and: [ModelSubscriptionOptionFilterInput]
+  or: [ModelSubscriptionOptionFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type ModelVoteConnection @aws_iam @aws_cognito_user_pools @aws_api_key {
+  items: [Vote]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelVoteFilterInput {
+  id: ModelIDInput
+  postID: ModelIDInput
+  userID: ModelIDInput
+  option: ModelIntInput
+  owner: ModelStringInput
+  and: [ModelVoteFilterInput]
+  or: [ModelVoteFilterInput]
+  not: ModelVoteFilterInput
+  _deleted: ModelBooleanInput
+}
+
+input ModelVoteConditionInput {
+  postID: ModelIDInput
+  userID: ModelIDInput
+  option: ModelIntInput
+  owner: ModelStringInput
+  and: [ModelVoteConditionInput]
+  or: [ModelVoteConditionInput]
+  not: ModelVoteConditionInput
+  _deleted: ModelBooleanInput
+}
+
+input CreateVoteInput {
+  id: ID
+  postID: ID!
+  userID: ID!
+  option: Int!
+  owner: String
+  _version: Int
+}
+
+input UpdateVoteInput {
+  id: ID!
+  postID: ID
+  userID: ID
+  option: Int
+  owner: String
+  _version: Int
+}
+
+input DeleteVoteInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionVoteFilterInput {
+  id: ModelSubscriptionIDInput
+  postID: ModelSubscriptionIDInput
+  userID: ModelSubscriptionIDInput
+  option: ModelSubscriptionIntInput
+  and: [ModelSubscriptionVoteFilterInput]
+  or: [ModelSubscriptionVoteFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type ModelTaggedUsersInPostConnection @aws_iam @aws_cognito_user_pools @aws_api_key {
+  items: [TaggedUsersInPost]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelTaggedUsersInPostFilterInput {
+  id: ModelIDInput
+  dx: ModelFloatInput
+  dy: ModelFloatInput
+  owner: ModelStringInput
+  and: [ModelTaggedUsersInPostFilterInput]
+  or: [ModelTaggedUsersInPostFilterInput]
+  not: ModelTaggedUsersInPostFilterInput
+  _deleted: ModelBooleanInput
+  userTaggedinpostsId: ModelIDInput
+  postTaggedusersId: ModelIDInput
+}
+
+input ModelTaggedUsersInPostConditionInput {
+  dx: ModelFloatInput
+  dy: ModelFloatInput
+  owner: ModelStringInput
+  and: [ModelTaggedUsersInPostConditionInput]
+  or: [ModelTaggedUsersInPostConditionInput]
+  not: ModelTaggedUsersInPostConditionInput
+  _deleted: ModelBooleanInput
+  userTaggedinpostsId: ModelIDInput
+  postTaggedusersId: ModelIDInput
+}
+
+input CreateTaggedUsersInPostInput {
+  id: ID
+  dx: Float
+  dy: Float
+  owner: String
+  _version: Int
+  userTaggedinpostsId: ID
+  postTaggedusersId: ID
+}
+
+input UpdateTaggedUsersInPostInput {
+  id: ID!
+  dx: Float
+  dy: Float
+  owner: String
+  _version: Int
+  userTaggedinpostsId: ID
+  postTaggedusersId: ID
+}
+
+input DeleteTaggedUsersInPostInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionTaggedUsersInPostFilterInput {
+  id: ModelSubscriptionIDInput
+  dx: ModelSubscriptionFloatInput
+  dy: ModelSubscriptionFloatInput
+  and: [ModelSubscriptionTaggedUsersInPostFilterInput]
+  or: [ModelSubscriptionTaggedUsersInPostFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type ModelTaggedGroupsInPostConnection @aws_iam @aws_cognito_user_pools @aws_api_key {
+  items: [TaggedGroupsInPost]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelTaggedGroupsInPostFilterInput {
+  id: ModelIDInput
+  dx: ModelFloatInput
+  dy: ModelFloatInput
+  owner: ModelStringInput
+  and: [ModelTaggedGroupsInPostFilterInput]
+  or: [ModelTaggedGroupsInPostFilterInput]
+  not: ModelTaggedGroupsInPostFilterInput
+  _deleted: ModelBooleanInput
+  postTaggedgroupsId: ModelIDInput
+  groupTaggedinpostsId: ModelIDInput
+}
+
+input ModelTaggedGroupsInPostConditionInput {
+  dx: ModelFloatInput
+  dy: ModelFloatInput
+  owner: ModelStringInput
+  and: [ModelTaggedGroupsInPostConditionInput]
+  or: [ModelTaggedGroupsInPostConditionInput]
+  not: ModelTaggedGroupsInPostConditionInput
+  _deleted: ModelBooleanInput
+  postTaggedgroupsId: ModelIDInput
+  groupTaggedinpostsId: ModelIDInput
+}
+
+input CreateTaggedGroupsInPostInput {
+  id: ID
+  dx: Float
+  dy: Float
+  owner: String
+  _version: Int
+  postTaggedgroupsId: ID
+  groupTaggedinpostsId: ID
+}
+
+input UpdateTaggedGroupsInPostInput {
+  id: ID!
+  dx: Float
+  dy: Float
+  owner: String
+  _version: Int
+  postTaggedgroupsId: ID
+  groupTaggedinpostsId: ID
+}
+
+input DeleteTaggedGroupsInPostInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionTaggedGroupsInPostFilterInput {
+  id: ModelSubscriptionIDInput
+  dx: ModelSubscriptionFloatInput
+  dy: ModelSubscriptionFloatInput
+  and: [ModelSubscriptionTaggedGroupsInPostFilterInput]
+  or: [ModelSubscriptionTaggedGroupsInPostFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type ModelJoinWaitListConnection @aws_iam @aws_cognito_user_pools {
+  items: [JoinWaitList]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelJoinWaitListFilterInput {
+  id: ModelIDInput
+  email: ModelStringInput
+  joincount: ModelIntInput
+  shareinvitelink: ModelStringInput
+  uniquehash: ModelStringInput
+  and: [ModelJoinWaitListFilterInput]
+  or: [ModelJoinWaitListFilterInput]
+  not: ModelJoinWaitListFilterInput
+  _deleted: ModelBooleanInput
+}
+
+input ModelJoinWaitListConditionInput {
+  email: ModelStringInput
+  joincount: ModelIntInput
+  shareinvitelink: ModelStringInput
+  uniquehash: ModelStringInput
+  and: [ModelJoinWaitListConditionInput]
+  or: [ModelJoinWaitListConditionInput]
+  not: ModelJoinWaitListConditionInput
+  _deleted: ModelBooleanInput
+}
+
+input CreateJoinWaitListInput {
+  id: ID
+  email: String!
+  joincount: Int
+  shareinvitelink: String
+  uniquehash: String
+  _version: Int
+}
+
+input UpdateJoinWaitListInput {
+  id: ID!
+  email: String
+  joincount: Int
+  shareinvitelink: String
+  uniquehash: String
+  _version: Int
+}
+
+input DeleteJoinWaitListInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionJoinWaitListFilterInput {
+  id: ModelSubscriptionIDInput
+  email: ModelSubscriptionStringInput
+  joincount: ModelSubscriptionIntInput
+  shareinvitelink: ModelSubscriptionStringInput
+  uniquehash: ModelSubscriptionStringInput
+  and: [ModelSubscriptionJoinWaitListFilterInput]
+  or: [ModelSubscriptionJoinWaitListFilterInput]
+  _deleted: ModelBooleanInput
+}
