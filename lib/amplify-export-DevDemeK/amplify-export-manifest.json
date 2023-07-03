@@ -15,7 +15,6 @@
           "AppSyncApiName": "DevDemeK",
           "DynamoDBBillingMode": "PAY_PER_REQUEST",
           "DynamoDBEnableServerSideEncryption": false,
-          "AuthModeLastUpdated": "2023-05-25T10:24:28.344Z",
           "S3DeploymentBucket": "amplify-devdemek-dev-82926-deployment",
           "S3DeploymentRootKey": "amplify-appsync-files/d3827977524687c44b7adadcb7673807a925e0c3",
           "env": "dev"
@@ -136,13 +135,9 @@
           "allowUnauthenticatedIdentities": true,
           "resourceNameTruncated": "devdem1a6540a2",
           "userPoolName": "DevDemeK",
-          "autoVerifiedAttributes": [
-            "email"
-          ],
+          "autoVerifiedAttributes": ["email"],
           "mfaConfiguration": "OFF",
-          "mfaTypes": [
-            "SMS Text Message"
-          ],
+          "mfaTypes": ["SMS Text Message"],
           "smsAuthenticationMessage": "Your authentication code is {####}",
           "smsVerificationMessage": "Your verification code is {####}",
           "emailVerificationSubject": "Verification code: {####}",
@@ -262,10 +257,7 @@
         "templateFile": "storage/s3devdemekstorage615f2589/cloudformation-template.json",
         "parameters": {
           "bucketName": "devdemek-storage-615f2589",
-          "selectedGuestPermissions": [
-            "s3:GetObject",
-            "s3:ListBucket"
-          ],
+          "selectedGuestPermissions": ["s3:GetObject", "s3:ListBucket"],
           "selectedAuthenticatedPermissions": [
             "s3:PutObject",
             "s3:GetObject",
