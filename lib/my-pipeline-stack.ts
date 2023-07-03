@@ -17,7 +17,7 @@ import { AmplifyStage } from './stages/amplify-stage';
        // How it will be built and synthesized
        synth: new ShellStep('Synth', {
          // Where the source can be found
-         input: CodePipelineSource.gitHub('<YOUR_GITHUB_USERNAME>/mycdkpipeline', 'main'),
+         input: CodePipelineSource.gitHub('Manickz/mycdkpipeline', 'main'),
          
          // Install dependencies, build and run cdk synth
          commands: [
@@ -30,6 +30,6 @@ import { AmplifyStage } from './stages/amplify-stage';
 
     // This is where we add the application stages
     pipeline.addStage(new AmplifyStage(this, "amplifyStage"))
-    pipeline.addStage(new OtherApiStage(this, "otherApiStage"))
+    //pipeline.addStage(new OtherApiStage(this, "otherApiStage"))
   }
 }
