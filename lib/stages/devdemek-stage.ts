@@ -12,7 +12,7 @@ export class DevDemeKStage extends Stage {
     // ADD AMPLIFY EXPORTED BACKEND STACK HERE
     const amplifyStack = new AmplifyExportedBackend(this, "devdemekexportedbackend", {
       path: path.resolve(__dirname, '..', 'amplify-export-DevDemeK'),
-      amplifyEnvironment: "test"
+      amplifyEnvironment: "test123"
     })
   }
 }

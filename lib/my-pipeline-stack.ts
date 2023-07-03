@@ -30,7 +30,7 @@ import { DevDemeKStage } from './stages/devdemek-stage';
     });
 
     // This is where we add the application stages
-    pipeline.addStage(new AmplifyStage(this, "amplifyStage"))
+    //pipeline.addStage(new AmplifyStage(this, "amplifyStage"))
     pipeline.addStage(new DevDemeKStage(this, "devDeMeKStage"))
   }
 }
