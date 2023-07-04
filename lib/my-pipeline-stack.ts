@@ -31,6 +31,11 @@ import { DevDemeKStage } from './stages/devdemek-stage';
 
     // This is where we add the application stages
     //pipeline.addStage(new AmplifyStage(this, "amplifyStage"))
-    pipeline.addStage(new DevDemeKStage(this, "devDeMeKStage"))
+    pipeline.addStage(new DevDemeKStage(this, "devDeMeKStage", {
+      env: {
+        account: process.env.CDK_DEFAULT_ACCOUNT, // or for example: "172387324923"
+        region: process.env.CDK_DEFAULT_REGION, // or "us-east-1"
+      }
+    }))
   }
 }
