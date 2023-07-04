@@ -12,7 +12,7 @@ export class cdkexporttesting extends Stage {
     // ADD AMPLIFY EXPORTED BACKEND STACK HERE
     const amplifyStack = new AmplifyExportedBackend(this, "cdkexportedbackend", {
       path: path.resolve(__dirname, '..', 'amplify-export-cdkexporttesting'),
-      amplifyEnvironment: "dev"
+      amplifyEnvironment: "dev-oregon"
     })
   }
 }
