@@ -1,0 +1,7 @@
+[
+  {
+    "category": "api",
+    "resourceName": "cdkexporttesting",
+    "service": "AppSync"
+  }
+]

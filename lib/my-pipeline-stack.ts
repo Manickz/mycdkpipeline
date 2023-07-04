@@ -3,7 +3,7 @@ import { CodePipeline, CodePipelineSource, ShellStep } from "@aws-cdk/pipelines"
 import { OtherApiStage } from './stages/other-api-stage';
 import { AmplifyStage } from './stages/amplify-stage';
 import { DevDemeKStage } from './stages/devdemek-stage';
-
+import { cdkexporttesting } from './stages/cdkexporttesting-stage';
 /**
  * The stack that defines the application pipeline
  */
@@ -31,11 +31,7 @@ import { DevDemeKStage } from './stages/devdemek-stage';
 
     // This is where we add the application stages
     //pipeline.addStage(new AmplifyStage(this, "amplifyStage"))
-    pipeline.addStage(new DevDemeKStage(this, "devDeMeKStage", {
-      env: {
-        account: process.env.CDK_DEFAULT_ACCOUNT, // or for example: "172387324923"
-        region: process.env.CDK_DEFAULT_REGION, // or "us-east-1"
-      }
-    }))
+    //pipeline.addStage(new DevDemeKStage(this, "devDeMeKStage"))
+    pipeline.addStage(new cdkexporttesting(this, "cdkexporttestingStage"))
   }
 }

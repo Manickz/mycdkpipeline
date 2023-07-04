@@ -4,14 +4,14 @@ import { AmplifyExportedBackend } from '@aws-amplify/cdk-exported-backend';
 import * as path from 'path'
 import * as cdk from '@aws-cdk/core'
 
-export class DevDemeKStage extends Stage {
+export class cdkexporttesting extends Stage {
   
   constructor(scope: Construct, id: string, props?: StageProps) {
     super(scope, id, props);
     
     // ADD AMPLIFY EXPORTED BACKEND STACK HERE
-    const amplifyStack = new AmplifyExportedBackend(this, "devdemekexportedbackend", {
-      path: path.resolve(__dirname, '..', 'amplify-export-DevDemeK'),
+    const amplifyStack = new AmplifyExportedBackend(this, "cdkexportedbackend", {
+      path: path.resolve(__dirname, '..', 'amplify-export-cdkexporttesting'),
       amplifyEnvironment: "dev"
     })
   }
