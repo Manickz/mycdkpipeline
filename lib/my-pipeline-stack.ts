@@ -31,7 +31,7 @@ import { cdkexporttesting } from './stages/cdkexporttesting-stage';
 
     // This is where we add the application stages
     //pipeline.addStage(new AmplifyStage(this, "amplifyStage"))
-    //pipeline.addStage(new DevDemeKStage(this, "devDeMeKStage"))
-    pipeline.addStage(new cdkexporttesting(this, "cdkexporttestingStage"))
+    pipeline.addStage(new DevDemeKStage(this, "devDeMeKStage"))
+    //pipeline.addStage(new cdkexporttesting(this, "cdkexporttestingStage"))
   }
 }
